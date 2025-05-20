@@ -1,0 +1,127 @@
+Project Vision: GroMo AI SHISHA
+"GroMo AI SHISHA" acts as an intelligent "mirror" and guide for financial micro-entrepreneurs (GroMo Partners) in India. It reflects their current skills and performance, providing AI-driven insights and personalized pathways to enhance their capabilities, connect with the right leads, and ultimately supercharge their earnings and business growth. The platform makes professional development and sales optimization accessible and engaging.
+Core Philosophy: AI-first personalization, actionable intelligence, gamified engagement, mobile-centric for agents, professional web presence, ease of use for users in Tier 2/3 Indian cities, and a seamless experience across touchpoints.
+I. Overall Architecture & Tech Stack (Unified Platform):
+Frontend 1 (Mobile App for Partners - "GroMo AI SHISHA App"):
+Technology: React Native (Expo SDK 50 or latest stable).
+Routing: Expo Router (file-system based).
+State Management: React Context API for global state (Auth, PartnerData); component state for local UI.
+Styling: StyleSheet API. (Consider a consistent theming approach if feasible).
+Frontend 2 (Web Application - "GroMo AI SHISHA Web"):
+Technology: React.js (Vite or Create React App for setup).
+Language: TypeScript preferred, JavaScript (ES6+) acceptable.
+Routing: React Router DOM.
+State Management: React Context API or Zustand/Jotai.
+Styling: Tailwind CSS (preferred for rapid UI development and responsiveness) or CSS Modules.
+Backend (Business Logic & Core APIs - "GroMo SHISHA Backend"):
+Technology: Node.js with Express.js.
+Language: JavaScript (ES6+) or TypeScript.
+Database ORM/Driver: Sequelize for PostgreSQL; native MongoDB driver for MongoDB.
+Authentication: Verifies Firebase ID tokens from frontends and issues its own session JWTs (especially for web stateful sessions, or can be stateless for mobile).
+AI/ML Microservice (Specialized AI Tasks - "GroMo SHISHA AI Engine"):
+Technology: Python with FastAPI.
+Language: Python 3.10+.
+AI Libraries (STUBBED with clear interfaces for hackathon):
+NLP/LLM (🤯 Llama 3 / GPT-4 stubs): Hugging Face Transformers API for skill gap analysis, pitch tip generation, AI coach chat responses.
+Speech-to-Text (🗣️ Whisper STT stub): OpenAI Whisper API or local model interface stub.
+Predictive Modeling (🧮 Lead Scoring stub): Scikit-learn or XGBoost interface stub for a pre-trained lead scoring model.
+Databases:
+PostgreSQL: Structured data (partner profiles, skills, leads, sales, achievements, learning progress, next best actions).
+MongoDB: Unstructured/semi-structured data (detailed call analysis outputs from SHISHA AI Engine, AI coach chat session histories).
+Redis: Caching frequently accessed data (dashboard summaries, hot leads - API stubs for caching).
+Authentication Provider (🔐 Firebase Auth): Client-side user sign-up/sign-in (Phone/email login). Backend verifies Firebase ID tokens.
+Push Notifications: Firebase Cloud Messaging (FCM) (triggered by the Node.js backend).
+Media Storage (Cloud): AWS S3 (for storing call audio recordings). Implement pre-signed URLs for secure client-side uploads from the mobile app directly to S3; metadata sent to backend.
+Communication APIs (Conceptual Stubs): Twilio / WhatsApp API interfaces for future integration.
+Containerization & Orchestration (🛠️ Dockerized, 📦 Modular Code):
+Docker for all backend services (Node.js, Python/FastAPI, PostgreSQL, MongoDB, Redis).
+Docker Compose for local development orchestration.
+Ensure clean folder structure as specified later.
+II. Core Features to Implement (Mobile App - "GroMo AI SHISHA App"):
+🔐 Onboarding & Authentication (Firebase Auth - Phone/email login):
+Secure registration & login flows.
+🧪 Skill Assessment:
+Post-signup quiz to gauge initial financial product knowledge and sales skills.
+Results stored in PostgreSQL (initial_skill_assessments, updates partner_skills).
+📊 SHISHA Dashboard (Replaces "Genome Dashboard"):
+Visual "SHISHA Strand" (or similar progress bar concept) reflecting skill development.
+Key stats: Earnings, Badges earned, Next Best Action.
+🎯 AI Lead Matching:
+AI-ranked leads fetched from backend.
+Personalized AI-generated pitch tips for each lead.
+Action buttons (Call, WhatsApp - stubs).
+🤖 AI Coach Chat:
+Real-time coaching via chat interface.
+Mechanism to upload call transcripts/audio (S3 pre-signed URL flow for audio).
+Backend triggers AI service for analysis (Whisper STT stub + Llama 3/GPT-4 NLP stub for skill gap analysis).
+Feedback displayed in app.
+🏆 Achievements & Quests:
+Gamified system with badges, points, and progress milestones for completing tasks, reaching sales targets, or improving skills.
+🔥 Community Fusion:
+(Basic MVP) View profiles of (stubbed) top-performing partners.
+(Stubbed) "Follow" functionality.
+(Static/Stubbed) Section for "Best Practices from Top Agents."
+III. Core Features to Implement (Web Application - "GroMo AI SHISHA Web"):
+Public Landing Page:
+Hero Section: Overview of "GroMo AI SHISHA," its benefits for financial agents, and a clear CTA to "Become a GroMo Partner." Use engaging visuals.
+Services/Features Section: Detail what the SHISHA platform offers (mirroring mobile app features like AI Coaching, Lead Matching, Skill Development, Gamification), using icons and concise text.
+"How It Works" / Benefits Section: Simple explanation of the agent journey and tangible benefits.
+Mobile App Showcase: Mockups/screenshots of the SHISHA mobile app.
+Testimonials (Stubbed): Placeholder for agent success stories.
+Footer CTA & Links: Final call to action, links to (stubbed) Privacy/Terms.
+Authentication Flow (Web - Firebase Auth):
+/register: Agent registration form (Name, Email, Password, Phone). Uses Firebase Auth, then syncs with backend to create partner profile.
+/login: Agent login form. Uses Firebase Auth.
+/forgot-password (Stub).
+Authenticated Agent Portal (Web - Basic MVP):
+/partner/dashboard (Protected Route):
+Welcome message.
+Display basic profile info.
+Link/Info about downloading/using the mobile app.
+Logout functionality.
+(Out of Scope for MVP) Admin panel functionalities.
+IV. Backend & AI Service Requirements (Unified):
+Node.js Backend:
+RESTful APIs for all frontend (mobile & web) features.
+Secure authentication (verify Firebase ID tokens, manage session JWTs).
+CRUD operations for partners, skills, leads, sales, achievements in PostgreSQL.
+Endpoints to trigger AI service for: skill gap analysis, lead matching/scoring, AI coach chat.
+Store AI service results (e.g., analysis in MongoDB, summaries in PostgreSQL).
+Manage S3 pre-signed URL generation for audio uploads.
+Trigger FCM push notifications.
+(Stubbed) Endpoints for Twilio/WhatsApp integration.
+Python AI Microservice (FastAPI):
+Secure endpoints callable by the Node.js backend (using INTERNAL_SERVICE_API_KEY).
+/analysis/skill-gap: Input S3 audio key/transcript; Output skill analysis (Whisper stub + LLM stub).
+/leads/recommend: Input partner profile, available leads; Output ranked leads with pitch tips (Lead Scoring stub + LLM stub).
+/coach/chat-response: Input chat history, user query; Output AI coach reply (LLM stub).
+V. Database Design (Key Tables - PostgreSQL - Summary):
+* partners, skills, partner_skills, initial_skill_assessments, leads, sales, achievements, partner_achievements, partner_following, next_best_actions.
+(Refer to detailed schema provided previously, ensure "Genome" is contextually replaced by "SHISHA" where appropriate in descriptions or comments if needed, but table/column names can remain generic for technical clarity, e.g., partner_skills is fine.)
+(MongoDB Collections - Summary):
+* call_records_analysis (detailed AI output from call analysis).
+* ai_coach_chat_sessions (full chat histories).
+VI. Output Requirements & Style:
+Modularity: Code organized into distinct root folders: /frontend_mobile, /frontend_web, /backend, /ai, /database, /docker, /docs.
+Comments & Documentation: Extensive JSDoc/TSDoc/Python Docstrings. Comprehensive root README.md, service-specific READMEs, and docs/ folder content (architecture, API endpoints).
+Clean & Runnable Code: Adhere to best practices. Code should be easily runnable in VS Code using Docker Compose for backend services, and standard npm start / npx expo start for frontends. Minimize setup friction. Aim for "clone, configure .env, and run" simplicity.
+Error Handling: Implement robust error handling and consistent API error responses. Graceful error display on frontends.
+Seed Data: Provide essential seed data for skills, achievements, and a few dummy partners & leads to make the app immediately demonstrable.
+AI Stubs: Implement AI service endpoints with mock logic that returns realistic-looking stubbed data matching defined Pydantic schemas. Clearly comment on how to integrate real models.
+VII. Deliverables (as generated code/text):
+React Native (Expo) mobile app project.
+React.js web application project.
+Node.js (Express) backend project.
+Python (FastAPI) AI microservice project.
+Database DDLs, MongoDB structure descriptions, and seed data.
+Dockerfile for backend and ai services (placed in /docker or service roots).
+Root docker-compose.yml.
+Documentation: Root README.md, service READMEs, docs/ folder content.
+(Conceptual) Stubs for basic unit tests.
+VIII. Generation Flow & Emphasis:
+Start with robust backend and AI service structures and their API contracts. Define Pydantic schemas for AI service and corresponding DTOs/interfaces in Node.js.
+Ensure Docker setup can bring up all backend components successfully.
+Then, develop frontend components (mobile and web) to interact with these backend services, initially focusing on core authentication and one key feature flow (e.g., Dashboard for mobile, Landing Page for web).
+Crucially, ensure the inter-service communication (Frontend <-> Backend <-> AI Service) interfaces are well-defined and stubbed correctly from the start.
+Constraint: The goal is a functional MVP. If full feature implementation is too vast, prioritize a seamless end-to-end flow for a subset of features (e.g., Onboarding, Dashboard, AI Lead Matching for mobile; Landing page & Auth for web) with robust stubs for other parts.
+Final Check: The entire system should be demonstrable with minimal post-generation errors, especially concerning setup and inter-service communication via Docker.

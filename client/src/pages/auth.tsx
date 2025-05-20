@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { useToast } from "@/hooks/use-toast";
+import { RecaptchaVerifier, ConfirmationResult } from "firebase/auth";
+import { auth } from "@/lib/firebase";
 
 type AuthMode = "login" | "signup";
 
