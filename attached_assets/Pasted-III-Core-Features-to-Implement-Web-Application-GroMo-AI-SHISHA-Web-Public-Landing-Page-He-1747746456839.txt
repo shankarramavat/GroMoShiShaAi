@@ -1,0 +1,34 @@
+III. Core Features to Implement (Web Application - "GroMo AI SHISHA Web"):
+Public Landing Page:
+Hero Section: Overview of "GroMo AI SHISHA," its benefits for financial agents, and a clear CTA to "Become a GroMo Partner." Use engaging visuals.
+Services/Features Section: Detail what the SHISHA platform offers (mirroring mobile app features like AI Coaching, Lead Matching, Skill Development, Gamification), using icons and concise text.
+"How It Works" / Benefits Section: Simple explanation of the agent journey and tangible benefits.
+Mobile App Showcase: Mockups/screenshots of the SHISHA mobile app.
+Testimonials (Stubbed): Placeholder for agent success stories.
+Footer CTA & Links: Final call to action, links to (stubbed) Privacy/Terms.
+Authentication Flow (Web - Firebase Auth):
+/register: Agent registration form (Name, Email, Password, Phone). Uses Firebase Auth, then syncs with backend to create partner profile.
+/login: Agent login form. Uses Firebase Auth.
+/forgot-password (Stub).
+Authenticated Agent Portal (Web - Basic MVP):
+/partner/dashboard (Protected Route):
+Welcome message.
+Display basic profile info.
+Link/Info about downloading/using the mobile app.
+Logout functionality.
+(Out of Scope for MVP) Admin panel functionalities.
+IV. Backend & AI Service Requirements (Unified):
+Node.js Backend:
+RESTful APIs for all frontend (mobile & web) features.
+Secure authentication (verify Firebase ID tokens, manage session JWTs).
+CRUD operations for partners, skills, leads, sales, achievements in PostgreSQL.
+Endpoints to trigger AI service for: skill gap analysis, lead matching/scoring, AI coach chat.
+Store AI service results (e.g., analysis in MongoDB, summaries in PostgreSQL).
+Manage S3 pre-signed URL generation for audio uploads.
+Trigger FCM push notifications.
+(Stubbed) Endpoints for Twilio/WhatsApp integration.
+Python AI Microservice (FastAPI):
+Secure endpoints callable by the Node.js backend (using INTERNAL_SERVICE_API_KEY).
+/analysis/skill-gap: Input S3 audio key/transcript; Output skill analysis (Whisper stub + LLM stub).
+/leads/recommend: Input partner profile, available leads; Output ranked leads with pitch tips (Lead Scoring stub + LLM stub).
+/coach/chat-response: Input chat history, user query; Output AI coach reply (LLM stub).

@@ -1,0 +1,32 @@
+Backend Interaction: This web application will primarily interact with the existing Node.js (Express) backend built for the mobile app (Theme 1). No new separate backend is needed for this web MVP, just new API endpoints on the existing backend if required for web-specific functionalities (e.g., admin views if any).
+Authentication:
+User registration and login will use Firebase Authentication (client-side SDK).
+The Firebase ID token will be sent to the Node.js backend for verification and session management (issuing its own JWT for the web session, or relying on Firebase session persistence).
+II. Core Features & Functionality (Web Application):
+Public Landing Page (Multiple Sections):
+Hero Section:
+Compelling headline (e.g., "Unlock Your Earning Potential with AI," "The Future of Financial Advisory, Powered by GroMo AI").
+Sub-headline explaining the core value proposition for financial agents.
+Visually engaging graphic (e.g., abstract AI/network, successful agent, or related to "Genome" theme).
+Primary Call-to-Action (CTA) button: "Become a GroMo Partner" or "Sign Up Now."
+"What is GroMo AI Partner SHISHA?" / Services Overview Section:
+Briefly explain what the platform is.
+Highlight key services/features offered to agents (mirroring mobile app features):
+Personalized AI Skill Development ("Evolve Your Skills").
+Smart Lead Matching & Pitch Tips ("Connect & Convert Smarter").
+AI Sales Coach & Feedback ("Your Personal Sales Mentor").
+Gamified Achievements ("Grow & Get Rewarded").
+Use icons and short descriptions for each service.
+"How It Works" Section (Optional, but good):
+Simple 3-4 step process (e.g., 1. Sign Up, 2. Get AI Guidance, 3. Sell More, 4. Earn & Grow).
+Benefits Section:
+Focus on tangible benefits for agents: "Earn More," "Learn Faster," "Save Time," "Build Your Business with Confidence."
+Features Showcase / Sneak Peek Section:
+Include mockups or stylized screenshots of the mobile app dashboard, lead card, AI coach chat (from previous mobile app design).
+Testimonials Section (Stubbed):
+Placeholders for 2-3 agent testimonials (e.g., "GroMo AI helped me double my income!").
+Call-to-Action (CTA) Section (Footer/End of Page):
+Reiterate the main CTA to sign up.
+Link to a "Learn More" or "Contact Us" (stub) page if applicable.
+Footer:
+Copyright, links to Privacy Policy, Terms of Service (stubs), social media icons (stubs).
