@@ -72,16 +72,17 @@ export default function Auth() {
 
   // Helper function to format phone number
   const formatPhoneNumber = (phoneNumber: string) => {
-    // Remove any non-digit characters
-    const digits = phoneNumber.replace(/\D/g, '');
+    // Remove spaces and any non-digit characters except the + sign
+    let formattedNumber = phoneNumber.trim().replace(/[^\d+]/g, '');
     
     // Check if it has country code
-    if (!phoneNumber.startsWith('+')) {
-      // Default to India's country code
-      return `+91${digits}`;
+    if (!formattedNumber.startsWith('+')) {
+      // Default to India's country code if no country code provided
+      formattedNumber = `+91${formattedNumber}`;
     }
     
-    return phoneNumber;
+    console.log("Formatted phone number:", formattedNumber);
+    return formattedNumber;
   };
 
   // Email login
