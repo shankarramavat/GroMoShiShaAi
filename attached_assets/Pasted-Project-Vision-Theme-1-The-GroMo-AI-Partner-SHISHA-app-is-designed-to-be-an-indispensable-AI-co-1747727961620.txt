@@ -1,0 +1,151 @@
+Project Vision (Theme 1):
+The "GroMo AI Partner SHISHA app is designed to be an indispensable AI co-pilot for GroMo Partners (financial micro-entrepreneurs in India). It aims to significantly boost their earnings, accelerate their learning curve, and help them efficiently grow their financial advisory business. The core idea is that each partner's "success DNA" (skills, performance) evolves with AI assistance, leading to better outcomes.
+Core Philosophy: Mobile-first, AI-driven personalization, gamified learning, actionable insights, and ease of use for users in Tier 2/3 Indian cities.
+I. Overall Architecture & Tech Stack:
+Frontend (Mobile App for Partners):
+Technology: React Native (using Expo SDK 50 or latest stable).
+Routing: Expo Router (file-system based).
+State Management: React Context API for global state (Auth, PartnerData); component state for local UI.
+Styling: StyleSheet API, consider a UI component library if simple (e.g., basic elements, not overly complex like NativeBase unless specifically requested for certain parts).
+Offline Support: (Conceptual for MVP, basic caching is a plus).
+Backend (Business Logic & Core APIs):
+Technology: Node.js with Express.js.
+Language: JavaScript (ES6+).
+Database ORM/Driver: Sequelize for PostgreSQL; native MongoDB driver for MongoDB.
+Authentication: JWTs issued by this backend upon Firebase ID token verification (stateless approach preferred).
+AI/ML Microservice (Specialized AI Tasks):
+Technology: Python with FastAPI.
+Language: Python 3.10+.
+AI Libraries (Use stubs with clear interfaces if full models are too complex for direct generation):
+NLP/LLM: Hugging Face Transformers (for a Llama 3 family model stub or GPT-4 API call stub) for skill extraction, pitch tip generation, and AI coach chat.
+Speech-to-Text: Whisper (OpenAI API stub or local model stub via Hugging Face).
+Predictive Modeling: Scikit-learn or XGBoost (stub for a pre-trained lead scoring model).
+Databases:
+PostgreSQL: For structured data (partner profiles, skills, leads, sales, achievements, learning progress, next best actions).
+MongoDB: For unstructured/semi-structured data (detailed call analysis outputs, AI coach chat session histories).
+Redis: For caching frequently accessed data (e.g., dashboard summaries, hot leads, leaderboard - conceptual for MVP, focus on API stubs for caching).
+Authentication Provider: Firebase Authentication (primarily for client-side user sign-up/sign-in; backend verifies Firebase ID tokens).
+Push Notifications: Firebase Cloud Messaging (FCM) (triggered by the Node.js backend).
+Media Storage: AWS S3 (for storing call audio recordings uploaded by partners). Pre-signed URLs for secure client-side uploads directly to S3, with metadata sent to backend, is a preferred pattern.
+Communication APIs (Conceptual for MVP - provide stubs/interfaces):
+Twilio or similar for click-to-call functionality.
+WhatsApp Business API for messaging leads.
+Containerization & Orchestration:
+Docker for all backend services (Node.js, Python/FastAPI, databases, Redis).
+Docker Compose for local development orchestration.
+II. Core Features & Functionality (Theme 1 - GroMo AI Partner SHISHA):
+Onboarding & Authentication:
+Mobile App: User registration (email/password or phone via Firebase Auth). Login. Password reset.
+Backend (Node.js):
+Endpoint to verify Firebase ID token and create/retrieve a partner profile in PostgreSQL (partners table). Store firebase_uid.
+Issue a session JWT from this backend upon successful Firebase token verification.
+Initial Skill Assessment (Mobile App & Backend):
+Simple multiple-choice quiz after first successful registration/login.
+Questions map to predefined skills (from skills table in PostgreSQL).
+Store assessment results (initial_skill_assessments table) and update initial partner_skills ratings in PostgreSQL.
+"SHISHA" Dashboard (Mobile App & Backend):
+Mobile App:
+Visually represent skill growth (e.g., a "DNA Strand" graphic or series of progress bars for key skill categories).
+Display key stats: Earnings this month (mocked/calculated), total badges earned, points.
+Show "Next Best Action" (fetched from backend).
+Backend (Node.js):
+API endpoint (/partners/:partnerId/dashboard) to provide aggregated data:
+Calculated/retrieved earnings.
+Count of earned badges (partner_achievements table).
+Current skill ratings/progress (from partner_skills table).
+Fetch the highest priority "Next Best Action" for the partner (from next_best_actions table, potentially AI-driven).
+AI Lead Matching & Action (Mobile App, Backend, AI Service):
+Mobile App:
+Section displaying top 3-5 AI-recommended leads.
+Each lead card shows: Name, contact snippet, product interest, match score (optional), and a personalized AI pitch tip.
+Action buttons: "Call" (stub: Linking.openURL('tel:...')), "WhatsApp" (stub: Linking.openURL('whatsapp://send?phone=...')), "View Details/Pitch".
+Backend (Node.js):
+API endpoint (/partners/:partnerId/leads/recommended) to fetch leads. This endpoint calls the AI Microservice.
+Endpoints to log lead interactions (e.g., /leads/:leadId/log-action).
+AI Microservice (FastAPI):
+Endpoint (/leads/recommend):
+Input: Partner profile (skills, location, specialization from PostgreSQL), list of available raw leads (could be from a central pool or another source).
+Logic (Stub): Use a predictive model stub (scikit-learn/XGBoost) to score leads based on partner-lead compatibility.
+Logic (Stub): For top-scored leads, use an LLM stub (Llama 3/GPT-4) to generate a concise, personalized pitch tip.
+Output: Ranked list of recommended leads with scores and pitch tips.
+AI Coach Chat & Call Analysis (Mobile App, Backend, AI Service):
+Mobile App:
+Chat interface (e.g., using react-native-gifted-chat or similar).
+Functionality to (conceptually for MVP) upload a call audio recording (stub: select file, get S3 pre-signed URL from backend, upload to S3). Or, allow pasting a transcript.
+Display AI-generated feedback after call analysis.
+Backend (Node.js):
+API endpoint to provide S3 pre-signed URL for audio upload.
+API endpoint (/coach/analyze-call) to receive notification of upload completion (with S3 key) or direct transcript. This endpoint calls the AI Microservice for analysis.
+API endpoint (/coach/chat) to relay messages between app and AI Microservice for real-time chat. Store chat history in MongoDB (ai_coach_chat_sessions).
+AI Microservice (FastAPI):
+Endpoint (/analysis/skill-assessment/analyze-call):
+Input: S3 audio key or raw transcript text, partner context.
+Logic (Stub): If S3 key, use Whisper stub to transcribe audio.
+Logic (Stub): Use LLM stub (Llama 3/GPT-4) to analyze transcript for demonstrated skills, skill gaps, sentiment, and provide actionable feedback points and training suggestions.
+Output: Structured analysis (strengths, weaknesses, suggestions).
+Endpoint (/coach/chat):
+Input: Conversation history, current user message, partner context.
+Logic (Stub): Use LLM stub (Llama 3/GPT-4) to generate a helpful, contextual coaching response.
+Output: AI coach's reply, potential actionable suggestions.
+Achievements & Quests (Mobile App & Backend):
+Mobile App:
+Screen displaying earned badges and progress towards active quests/milestones.
+Backend (Node.js):
+Store achievement definitions (achievements table) and earned achievements (partner_achievements table) in PostgreSQL.
+Logic (can be event-driven or batch) to award achievements based on partner actions (e.g., X sales, Y skill level reached, Z modules completed).
+API endpoint (/partners/:partnerId/achievements) to fetch earned achievements.
+API endpoint (/achievements/quests) for available quests.
+Community Fusion (Conceptual for MVP - Mobile App & Backend):
+Mobile App: Placeholder UI to showcase profiles of top-performing partners (based on metrics like earnings, badges, skill scores). "Follow" button stub. Section for "Best Practices" (static content for MVP).
+Backend (Node.js):
+API endpoint (/community/top-performers) to fetch a list of top partners (logic based on aggregated data).
+API endpoint (/community/follow/:targetPartnerId) stub.
+Store following relationships (partner_following table).
+III. Database Design (Key Tables - PostgreSQL):
+partners: id, firebase_uid, name, email, phone_number, location, profile_image_url, bio, earnings_this_month, total_sales_value, created_at, updated_at.
+skills: id, name (unique), category, description.
+partner_skills: partner_id, skill_id, rating (0-10), last_assessed_at, assessment_source.
+initial_skill_assessments: id, partner_id, assessment_data (JSONB for quiz answers), completed_at.
+leads: id, assigned_partner_id, name, phone_number, product_interest, status, lead_source, ai_match_score, ai_pitch_tip_generated, last_contacted_at, created_at, updated_at.
+sales: id, partner_id, lead_id, product_name, product_category, sale_amount, commission_earned, sale_date.
+achievements: id, name (unique), description, badge_icon_url, criteria_details, achievement_type, points_awarded.
+partner_achievements: id, partner_id, achievement_id, earned_at, context_data (JSONB).
+partner_following: follower_partner_id, followed_partner_id.
+next_best_actions: id, partner_id, action_type, description, related_entity_type, related_entity_id, priority, status.
+(MongoDB Collections - Conceptual):
+call_records_analysis: Stores S3 audio key, full transcript, detailed AI analysis (sentiment, keywords, skill breakdown, feedback).
+ai_coach_chat_sessions: Stores complete chat history for each partner-coach session.
+IV. Output Requirements & Style:
+Modularity: Code must be organized into distinct folders: /frontend, /backend, /ai, /database, /docker, /docs.
+Comments & Documentation:
+Well-commented code, especially for complex logic, API contracts, and AI stub interfaces.
+JSDoc for Node.js functions/classes, Python docstrings for FastAPI endpoints and AI functions.
+A comprehensive root README.md with setup, architecture overview, running instructions, and demo flows.
+Basic README.md files within each service directory (backend/README.md, ai/README.md, frontend/README.md).
+docs/ folder with architecture.png (you will generate from Mermaid), architecture_overview.md, and API_ENDPOINTS.md.
+Clean Code: Follow consistent coding styles (e.g., Prettier/ESLint for JS, Black/Flake8 for Python - provide basic configs if possible). Code should be readable and maintainable.
+Hackathon-Ready: Prioritize getting core features functional with stubs. Code should be easy to understand, run, and demo. Avoid over-engineering for this MVP stage.
+Error Handling: Implement basic error handling and consistent error responses in APIs.
+Seed Data: Provide sample seed data for skills, achievements, and a few dummy partners and leads to make the app demonstrable.
+API Stubs for AI Models: Where full AI model integration is too complex for direct generation:
+Clearly define the expected input/output JSON structure for AI service endpoints.
+The Python AI service should implement these endpoints with mock logic that returns realistic-looking stubbed data matching the defined schemas.
+Provide clear comments on where and how to plug in real AI models or API calls.
+V. Deliverables (as generated code/text):
+React Native (Expo) frontend project structure and key screen/component stubs.
+Node.js (Express) backend project structure, API endpoint definitions, controller/service stubs, and Sequelize model definitions.
+Python (FastAPI) AI microservice project structure, API endpoint definitions, and AI model interaction stubs.
+PostgreSQL DDL (postgres_schema.sql) and sample seed_data.sql. MongoDB structure descriptions (mongodb_structures.md).
+Dockerfile for backend and ai services.
+Root docker-compose.yml file.
+Outline and key content for README.md and files in docs/.
+(Conceptual) Stubs for basic unit tests for backend and AI endpoints.
+VI. Generation Order Preference (if applicable to your process):
+Database schemas (postgres_schema.sql, mongodb_structures.md, seed_data.sql).
+Backend (Node.js/Express) - API routes, controllers, services, models. Focus on auth and one core feature flow (e.g., dashboard or leads).
+AI Microservice (Python/FastAPI) - Endpoint definitions and AI stubs matching the needs of the backend.
+Frontend (React Native/Expo) - Auth flow, dashboard screen, and one core feature screen.
+Docker setup (Dockerfiles, docker-compose.yml).
+Documentation (README.md, docs/ content).
+Constraint: If generating all code at once is too large, prioritize the backend structure, then AI service structure, then frontend structure, followed by Docker and documentation. Focus on clear interfaces between services.
+Final Check: The generated code should be runnable locally using Docker Compose with minimal manual configuration after populating .env files and Firebase/S3 setup.
