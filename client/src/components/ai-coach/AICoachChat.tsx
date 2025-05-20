@@ -51,10 +51,7 @@ export default function AICoachChat() {
   // Send message mutation
   const sendMessageMutation = useMutation({
     mutationFn: async (content: string) => {
-      return apiRequest('/api/coach/chat', {
-        method: 'POST',
-        body: JSON.stringify({ message: content }),
-      });
+      return apiRequest('/api/coach/chat', 'POST', { message: content });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/coach/chat-history'] });
@@ -72,10 +69,7 @@ export default function AICoachChat() {
   // Submit call analysis mutation
   const analyzeCallMutation = useMutation({
     mutationFn: async (transcript: string) => {
-      return apiRequest('/api/coach/analyze-call', {
-        method: 'POST',
-        body: JSON.stringify({ transcript }),
-      });
+      return apiRequest('/api/coach/analyze-call', 'POST', { transcript });
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['/api/coach/chat-history'] });

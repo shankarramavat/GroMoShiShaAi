@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { RiDnaSsLine } from "react-icons/ri";
+import { RiDnaLine } from "react-icons/ri";
 
 interface Skill {
   id: number;
@@ -40,7 +40,7 @@ export default function SkillDNAStrandCard({ skills, overallProgress }: SkillDNA
     <Card className="col-span-full md:col-span-8 shadow-md hover:shadow-lg transition-shadow">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="text-xl font-bold flex items-center">
-          <RiDnaSsLine className="mr-2 h-6 w-6 text-primary" />
+          <RiDnaLine className="mr-2 h-6 w-6 text-primary" />
           Your Skill DNA
         </CardTitle>
         <Badge variant="outline" className="ml-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white">
