@@ -309,45 +309,50 @@ export default function Auth() {
         {/* Logo */}
         <div className="flex justify-center mb-8">
           <div className="flex items-center">
-            <div className="h-16 w-16 bg-primary rounded-xl flex items-center justify-center">
+            <div className="h-16 w-16 bg-gradient-to-r from-primary to-secondary rounded-xl flex items-center justify-center shadow-lg">
               <i className="ri-seedling-line text-white text-3xl"></i>
             </div>
             <div className="ml-4">
-              <h1 className="text-2xl font-bold text-neutral-800">GroMo</h1>
-              <p className="text-sm text-neutral-500">AI Partner SHISHA</p>
+              <h1 className="text-3xl font-bold text-neutral-800 tracking-tight">GroMo</h1>
+              <p className="text-sm font-medium text-primary">AI Partner SHISHA</p>
             </div>
           </div>
         </div>
         
         {/* Auth Form */}
-        <div className="bg-white rounded-xl p-6 shadow-card">
-          <h2 className="text-xl font-semibold text-neutral-800 mb-2">
-            {mode === "login" ? "Login to your account" : "Create a new account"}
+        <div className="bg-white rounded-xl p-6 shadow-lg border border-neutral-100">
+          <h2 className="text-2xl font-bold text-neutral-800 mb-3">
+            {mode === "login" ? "Welcome back!" : "Join GroMo SHISHA"}
           </h2>
+          <p className="text-neutral-500 mb-6 text-sm">
+            {mode === "login" 
+              ? "Sign in to access your partner dashboard" 
+              : "Create your account to get started as a GroMo Partner"}
+          </p>
           
           {/* Auth Method Tabs */}
-          <div className="flex mb-6">
+          <div className="flex mb-6 bg-neutral-50 p-1 rounded-lg">
             <button
               type="button"
               onClick={() => setAuthMethod("email")}
-              className={`flex-1 text-center py-2 border-b-2 ${
+              className={`flex-1 text-center py-2.5 px-4 rounded-md transition-all duration-200 flex items-center justify-center ${
                 authMethod === "email"
-                  ? "border-primary text-primary font-medium"
-                  : "border-neutral-200 text-neutral-500"
+                  ? "bg-white text-primary font-medium shadow-sm"
+                  : "text-neutral-600 hover:bg-neutral-100"
               }`}
             >
-              <i className="ri-mail-line mr-1"></i> Email
+              <i className="ri-mail-line mr-2 text-lg"></i> Email
             </button>
             <button
               type="button"
               onClick={() => setAuthMethod("phone")}
-              className={`flex-1 text-center py-2 border-b-2 ${
+              className={`flex-1 text-center py-2.5 px-4 rounded-md transition-all duration-200 flex items-center justify-center ${
                 authMethod === "phone"
-                  ? "border-primary text-primary font-medium"
-                  : "border-neutral-200 text-neutral-500"
+                  ? "bg-white text-primary font-medium shadow-sm"
+                  : "text-neutral-600 hover:bg-neutral-100"
               }`}
             >
-              <i className="ri-phone-line mr-1"></i> Phone
+              <i className="ri-phone-line mr-2 text-lg"></i> Phone
             </button>
           </div>
           
@@ -366,7 +371,7 @@ export default function Auth() {
                       <input
                         id="email"
                         type="email"
-                        className="w-full px-4 py-3 pl-10 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        className="w-full px-4 py-3.5 pl-10 rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white shadow-sm transition-all duration-200"
                         placeholder="partner@example.com"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -384,7 +389,7 @@ export default function Auth() {
                       <input
                         id="password"
                         type="password"
-                        className="w-full px-4 py-3 pl-10 rounded-lg border border-neutral-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                        className="w-full px-4 py-3.5 pl-10 rounded-lg border border-neutral-200 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white shadow-sm transition-all duration-200"
                         placeholder="••••••••"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
@@ -398,10 +403,20 @@ export default function Auth() {
                   
                   <button
                     type="submit"
-                    className="w-full bg-primary hover:bg-[#5935C8] text-white font-medium py-3 rounded-lg transition-colors duration-200 disabled:opacity-70"
+                    className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-70 shadow-md"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Logging in..." : "Log In"}
+                    {isLoading ? (
+                      <span className="flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Logging in...
+                      </span>
+                    ) : (
+                      "Log In"
+                    )}
                   </button>
                 </form>
               ) : step === "input" ? (
@@ -432,10 +447,23 @@ export default function Auth() {
                   
                   <button
                     type="submit"
-                    className="w-full bg-primary hover:bg-[#5935C8] text-white font-medium py-3 rounded-lg transition-colors duration-200 disabled:opacity-70"
+                    className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary text-white font-semibold py-3.5 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-70 shadow-md"
                     disabled={isLoading}
                   >
-                    {isLoading ? "Sending code..." : "Send Verification Code"}
+                    {isLoading ? (
+                      <span className="flex items-center justify-center">
+                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Sending code...
+                      </span>
+                    ) : (
+                      <span className="flex items-center justify-center">
+                        <i className="ri-message-3-line mr-2"></i>
+                        Send Verification Code
+                      </span>
+                    )}
                   </button>
                 </form>
               ) : (
