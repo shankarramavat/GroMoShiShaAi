@@ -152,7 +152,15 @@ export default function Auth() {
         throw new Error("No verification in progress");
       }
       
-      await confirmPhoneCode(confirmationResult, verificationCode);
+      // Ensure verification code is correctly formatted
+      const formattedCode = verificationCode.trim().replace(/\D/g, '');
+      
+      if (formattedCode.length !== 6) {
+        throw new Error("Verification code must be 6 digits");
+      }
+      
+      console.log("Verifying code:", formattedCode);
+      await confirmPhoneCode(confirmationResult, formattedCode);
       
       // For signup, also update the name
       if (mode === "signup") {
@@ -164,6 +172,7 @@ export default function Auth() {
         description: "Welcome to SHISHA AI Partner",
       });
     } catch (error: any) {
+      console.error("Verification error:", error);
       toast({
         title: "Verification failed",
         description: error?.message || "Invalid verification code. Please try again.",
